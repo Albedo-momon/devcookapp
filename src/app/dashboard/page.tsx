@@ -56,7 +56,10 @@ const DashboardPage = () => {
               <Image src={logo} alt="logo" width={100} height={100} />
             </div>
             <div className='flex flex-col text-start'>
-              <span className="text-white font-medium text-xs xl:text-sm flex gap-1.5">Albedo Momon
+              <span className="text-white font-medium text-xs xl:text-sm flex gap-1.5">
+                {user?.firstName && user?.lastName 
+                  ? `${user.firstName} ${user.lastName}` 
+                  : user?.fullName || user?.username || 'User'}
                 <LockKeyhole size={10} className='text-gray-300 mt-0.5 xl:mt-1' />
               </span>
               <span className='text-[10px] xl:text-[11px] text-gray-400'>Start Generating</span>
@@ -81,9 +84,17 @@ const DashboardPage = () => {
           {/* Right side */}
           <div className="flex items-center space-x-1">
             <div className='flex items-center justify-center'>
-              <div className='rounded-full bg-pink-600 w-5 h-5 xl:w-6 xl:h-6 items-center justify-center flex text-xs font-bold'>
-                A
-              </div>
+              {user?.imageUrl ? (
+                <img 
+                  src={user.imageUrl} 
+                  alt="Profile" 
+                  className='rounded-full w-5 h-5 xl:w-6 xl:h-6 object-cover'
+                />
+              ) : (
+                <div className='rounded-full bg-pink-600 w-5 h-5 xl:w-6 xl:h-6 items-center justify-center flex text-xs font-bold'>
+                  {user?.firstName?.charAt(0) || user?.fullName?.charAt(0) || user?.username?.charAt(0) || 'U'}
+                </div>
+              )}
               <div className="text-gray-500 -ml-1.5 bg-neutral-800 text-xs xl:text-sm rounded-4xl xl:px-3 px-1.5 py-1.5 xl:py-1 cursor-not-allowed opacity-50">
                 <span className='xl:flex hidden'>Invite</span>
                 <Plus className='w-3.5 h-3.5 xl:w-4 xl:h-4 xl:hidden' />
@@ -113,11 +124,23 @@ const DashboardPage = () => {
       <header className='md:hidden bg-neutral-900 border-b border-neutral-700 flex-shrink-0'>
         <div className='w-full flex items-center justify-between p-2 sm:p-3 md:p-4'>
           <ArrowLeft className='w-5 h-5 md:w-6 md:h-6 text-white' />
-          <span className='text-white font-medium text-base md:text-lg'>Albedo Momon</span>
+          <span className='text-white font-medium text-base md:text-lg'>
+            {user?.firstName && user?.lastName 
+              ? `${user.firstName} ${user.lastName}` 
+              : user?.fullName || user?.username || 'User'}
+          </span>
           <div className='flex items-center'>
-            <div className='w-8 h-8 md:w-9 md:h-9 rounded-full bg-pink-600 items-center justify-center flex text-sm md:text-base font-bold text-white'>
-              <span>A</span>
-            </div>
+            {user?.imageUrl ? (
+              <img 
+                src={user.imageUrl} 
+                alt="Profile" 
+                className='w-8 h-8 md:w-9 md:h-9 rounded-full object-cover'
+              />
+            ) : (
+              <div className='w-8 h-8 md:w-9 md:h-9 rounded-full bg-pink-600 items-center justify-center flex text-sm md:text-base font-bold text-white'>
+                <span>{user?.firstName?.charAt(0) || user?.fullName?.charAt(0) || user?.username?.charAt(0) || 'U'}</span>
+              </div>
+            )}
             <div className='w-8 h-8 md:w-9 md:h-9 -ml-2 rounded-full bg-neutral-800 border border-neutral-700 items-center justify-center flex'>
               <Plus className='w-4 h-4 md:w-5 md:h-5 text-neutral-400' />
             </div>

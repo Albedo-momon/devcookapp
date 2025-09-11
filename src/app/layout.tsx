@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import Link from 'next/link';
+import { ClerkProvider } from '@clerk/nextjs';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,8 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Auth App - Login & Signup",
+  title: "Devcook",
   description: "A clean authentication app with login and signup functionality",
+  icons: {
+    icon: ['/favicon.ico', '/cookdev_logo.png'],
+    shortcut: '/favicon.ico',
+    apple: '/cookdev_logo.png',
+  },
 };
 
 export default function RootLayout({
