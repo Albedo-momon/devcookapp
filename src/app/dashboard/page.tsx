@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useUser, useClerk } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import logo from '@/assets/cookdev_logo.png';
-import { LockKeyhole, History, Columns2, Code, MonitorSmartphone, MoveUpRight, RotateCw, SquareDashedMousePointer, Plus, Lightbulb, AudioLines, MoveUp, ArrowUp, ArrowLeft, Mic } from "lucide-react"
-import logoName from '@/assets/logo@4x.png'
+import { LockKeyhole, History, Columns2, Code, MonitorSmartphone, MoveUpRight, RotateCw, SquareDashedMousePointer, Plus, Lightbulb, AudioLines, ArrowUp, ArrowLeft } from "lucide-react"
 
 const DashboardPage = () => {
   // Always call hooks unconditionally
@@ -20,7 +19,7 @@ const DashboardPage = () => {
   const isLoaded = isClerkAvailable ? (clerkUser.isLoaded ?? true) : true;
   const isSignedIn = isClerkAvailable ? (clerkUser.isSignedIn ?? false) : false;
   
-  const [activeTab, setActiveTab] = useState('chat');
+  const [activeTab] = useState('chat'); // Removed setActiveTab as it's unused
   const [showPopup, setShowPopup] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
 
@@ -96,9 +95,11 @@ const DashboardPage = () => {
           <div className="flex items-center space-x-1">
             <div className='flex items-center justify-center'>
               {user?.imageUrl ? (
-                <img 
+                <Image 
                   src={user.imageUrl} 
                   alt="Profile" 
+                  width={24}
+                  height={24}
                   className='rounded-full w-5 h-5 xl:w-6 xl:h-6 object-cover'
                 />
               ) : (
@@ -142,9 +143,11 @@ const DashboardPage = () => {
           </span>
           <div className='flex items-center'>
             {user?.imageUrl ? (
-              <img 
+              <Image 
                 src={user.imageUrl} 
                 alt="Profile" 
+                width={36}
+                height={36}
                 className='w-8 h-8 md:w-9 md:h-9 rounded-full object-cover'
               />
             ) : (

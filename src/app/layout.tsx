@@ -28,9 +28,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Enhanced environment validation for production builds
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
   
-  if (!publishableKey || publishableKey === 'pk_test_your_publishable_key_here') {
+  // More robust check for production environments
+  const isClerkConfigured = 
+    publishableKey && 
+    publishableKey !== 'pk_test_your_publishable_key_here' && 
+    publishableKey.startsWith('pk_') &&
+    publishableKey.length > 20; // Additional length validation
+
+  // For production builds without proper Clerk configuration, render without provider
+  if (!isClerkConfigured) {
     return (
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

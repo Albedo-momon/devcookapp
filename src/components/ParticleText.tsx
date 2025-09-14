@@ -48,7 +48,7 @@ class Point {
     if (
       this.x + this.vx >= this.canvas.width ||
       this.x + this.vx < 0 ||
-      (this.maskRef.current && this.maskRef.current.data[this.coordsToI(this.x + this.vx, this.y, this.maskRef.current.width)] != 255)
+      (this.maskRef.current && this.maskRef.current.data[this.coordsToI(this.x + this.vx, this.y)] != 255)
     ) {
       this.vx *= -1;
       this.x += this.vx * 2;
@@ -56,7 +56,7 @@ class Point {
     if (
       this.y + this.vy >= this.canvas.height ||
       this.y + this.vy < 0 ||
-      (this.maskRef.current && this.maskRef.current.data[this.coordsToI(this.x, this.y + this.vy, this.maskRef.current.width)] != 255)
+      (this.maskRef.current && this.maskRef.current.data[this.coordsToI(this.x, this.y + this.vy)] != 255)
     ) {
       this.vy *= -1;
       this.y += this.vy * 2;
@@ -93,7 +93,7 @@ class Point {
     this.y += this.vy;
   }
 
-  private coordsToI(x: number, y: number, w: number) {
+  private coordsToI(x: number, y: number) {
     if (!this.maskRef.current) return 0;
     return (this.maskRef.current.width * y + x) * 4;
   }
