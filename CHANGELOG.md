@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Graceful handling of missing Clerk configuration during build process
 
 ### Fixed
+- Resolve prerender error by ensuring ClerkProvider always wraps application (pending)
 - Resolve console errors and React hooks violations in dashboard (pending)
 - Solved the build error (pending)
 - **TypeScript Compilation Errors**:
