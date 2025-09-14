@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Make project production ready with image config and fixes (pending)
 - Initial CHANGELOG.md file for tracking project changes
 - Environment configuration template (.env.local) with Clerk placeholder keys
 - Graceful handling of missing Clerk configuration during build process

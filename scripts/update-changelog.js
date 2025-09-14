@@ -36,9 +36,10 @@ function getCurrentCommitHash() {
   }
 }
 
-function getCurrentDate() {
-  return new Date().toISOString().split('T')[0];
-}
+// Reserved for future use
+// function getCurrentDate() {
+//   return new Date().toISOString().split('T')[0];
+// }
 
 function categorizeChange(commitMessage) {
   const msg = commitMessage.toLowerCase();
