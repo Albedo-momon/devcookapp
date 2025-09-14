@@ -1,6 +1,5 @@
 import type { NextConfig } from "next";
 import { config } from 'dotenv';
-import path from 'path';
 
 // Load environment variables from custom location in production
 if (process.env.NODE_ENV === 'production') {

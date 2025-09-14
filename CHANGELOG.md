@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Configure custom env file loading for production deployment (pending)
 - Make project production ready with image config and fixes (pending)
 - Make project production ready with image config and fixes (pending)
 - Initial CHANGELOG.md file for tracking project changes
