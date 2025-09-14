@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logo from '@/assets/cookdev_logo.png';
 import { LockKeyhole, History, Columns2, Code, MonitorSmartphone, MoveUpRight, RotateCw, SquareDashedMousePointer, Plus, Lightbulb, AudioLines, ArrowUp, ArrowLeft } from "lucide-react"
@@ -9,6 +10,7 @@ import { LockKeyhole, History, Columns2, Code, MonitorSmartphone, MoveUpRight, R
 const DashboardPage = () => {
   // Always call hooks unconditionally
   const clerkUser = useUser();
+  const router = useRouter();
   
   // Check if Clerk is available
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -22,6 +24,13 @@ const DashboardPage = () => {
   const [activeTab] = useState('chat'); // Removed setActiveTab as it's unused
   const [showPopup, setShowPopup] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
+
+  // Handle authentication redirect - must be called before any conditional returns
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push('/sign-in');
+    }
+  }, [isLoaded, isSignedIn, router]);
 
   const handlePageClick = () => {
     setVideoLoaded(false);
@@ -45,9 +54,8 @@ const DashboardPage = () => {
     );
   }
 
-  // Redirect to sign-in if not authenticated
+  // Show loading while redirecting
   if (isLoaded && !isSignedIn) {
-    window.location.href = '/sign-in';
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
@@ -101,6 +109,7 @@ const DashboardPage = () => {
                   width={24}
                   height={24}
                   className='rounded-full w-5 h-5 xl:w-6 xl:h-6 object-cover'
+                  onError={() => console.warn('Failed to load profile image')}
                 />
               ) : (
                 <div className='rounded-full bg-pink-600 w-5 h-5 xl:w-6 xl:h-6 items-center justify-center flex text-xs font-bold'>
@@ -149,6 +158,7 @@ const DashboardPage = () => {
                 width={36}
                 height={36}
                 className='w-8 h-8 md:w-9 md:h-9 rounded-full object-cover'
+                onError={() => console.warn('Failed to load profile image')}
               />
             ) : (
               <div className='w-8 h-8 md:w-9 md:h-9 rounded-full bg-pink-600 items-center justify-center flex text-sm md:text-base font-bold text-white'>
@@ -221,6 +231,7 @@ const DashboardPage = () => {
             muted
             playsInline
             className="absolute inset-0 w-full h-full object-cover z-0 rounded-lg"
+            onError={() => console.warn('Failed to load background video')}
           >
             <source src="/assets/9694443-hd_1920_1080_25fps.mp4" type="video/mp4" />
           </video>
@@ -269,6 +280,7 @@ const DashboardPage = () => {
               muted
               playsInline
               className="absolute inset-0 w-full h-full object-cover z-0"
+              onError={() => console.warn('Failed to load preview video')}
             >
               <source src="/assets/9694443-hd_1920_1080_25fps.mp4" type="video/mp4" />
             </video>
@@ -387,6 +399,7 @@ const DashboardPage = () => {
                     loop
                     muted
                     playsInline
+                    onError={() => console.warn('Failed to load cooking video')}
                   >
                     <source src="/assets/cookingVideo.mp4" type="video/mp4" />
                   </video>
@@ -403,6 +416,7 @@ const DashboardPage = () => {
                 muted
                 playsInline
                 onLoadedData={() => setVideoLoaded(true)}
+                onError={() => console.warn('Failed to preload cooking video')}
               >
                 <source src="/assets/cookingVideo.mp4" type="video/mp4" />
               </video>
