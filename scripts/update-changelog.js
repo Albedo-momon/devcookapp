@@ -5,8 +5,11 @@
  * Usage: node scripts/update-changelog.js "feat: add new feature" "Added new user dashboard"
  */
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const fs = require('fs');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { execSync } = require('child_process');
 
 const CHANGELOG_PATH = path.join(__dirname, '..', 'CHANGELOG.md');
@@ -23,12 +26,12 @@ function getCurrentCommitHash() {
         // We have staged changes, so we'll get a new hash after commit
         hash = 'pending';
       }
-    } catch (e) {
-      // Ignore errors, use current hash
-    }
+    } catch {
+       // Ignore errors, use current hash
+     }
     
     return hash;
-  } catch (error) {
+  } catch {
     return 'unknown';
   }
 }
@@ -59,7 +62,7 @@ function updateChangelog(commitMessage, description) {
   const changelog = fs.readFileSync(CHANGELOG_PATH, 'utf8');
   const commitHash = getCurrentCommitHash();
   const category = categorizeChange(commitMessage);
-  const date = getCurrentDate();
+  // const date = getCurrentDate(); // Reserved for future use
   
   // Find the [Unreleased] section
   const unreleasedIndex = changelog.indexOf('## [Unreleased]');

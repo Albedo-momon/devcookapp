@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Graceful handling of missing Clerk configuration during build process
 
 ### Fixed
+- Solved the build error (pending)
 - **TypeScript Compilation Errors**:
   - Fixed null pointer exceptions in ParticleText component
   - Added proper null checks for canvas context and canvas element
