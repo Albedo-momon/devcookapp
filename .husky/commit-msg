@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Validate commit message format
+npx --no -- commitlint --edit $1
+
+# Auto-update changelog for significant commits
+if grep -qE "^(feat|fix|perf|refactor)" "$1"; then
+  echo "📝 Auto-updating CHANGELOG.md..."
+  
+  # Extract commit message
+  COMMIT_MSG=$(head -n 1 "$1")
+  
+  # Generate description from commit message
+  DESCRIPTION=$(echo "$COMMIT_MSG" | sed 's/^[^:]*: //' | sed 's/^./\U&/')
+  
+  # Update changelog
+  node scripts/update-changelog.js "$COMMIT_MSG" "$DESCRIPTION" || echo "⚠️  Could not auto-update changelog"
+fi

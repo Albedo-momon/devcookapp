@@ -117,6 +117,7 @@ export default function ParticleText({ text, className = '' }: ParticleTextProps
     const fontStr = 'bold 128pt Helvetica Neue, Helvetica, Arial, sans-serif';
 
     function loop() {
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let k = 0; k < pointsRef.current.length; k++) {
         pointsRef.current[k].update();
@@ -125,6 +126,7 @@ export default function ParticleText({ text, className = '' }: ParticleTextProps
     }
 
     function init() {
+      if (!ctx || !canvas) return;
       // Set canvas size based on text
       ctx.font = fontStr;
       ctx.textAlign = 'center';
@@ -172,7 +174,7 @@ export default function ParticleText({ text, className = '' }: ParticleTextProps
     }
 
     function addPoint() {
-      if (whitePixelsRef.current.length === 0) return;
+      if (whitePixelsRef.current.length === 0 || !ctx || !canvas) return;
       
       const spawn = whitePixelsRef.current[Math.floor(Math.random() * whitePixelsRef.current.length)];
       const p = new Point(

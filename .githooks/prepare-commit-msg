@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# Git hook to remind developers to update the changelog
+# To install: cp .githooks/prepare-commit-msg .git/hooks/prepare-commit-msg
+# Make executable: chmod +x .git/hooks/prepare-commit-msg
+#
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+
+# Only run for regular commits (not merges, rebases, etc.)
+if [ "$COMMIT_SOURCE" = "" ] || [ "$COMMIT_SOURCE" = "template" ]; then
+    # Check if this is a significant change that should be in changelog
+    COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+    
+    # Skip if it's a minor commit (docs, style, test, chore)
+    if echo "$COMMIT_MSG" | grep -qE "^(docs|style|test|chore|refactor):" ; then
+        exit 0
+    fi
+    
+    # Check if CHANGELOG.md was modified in this commit
+    if git diff --cached --name-only | grep -q "CHANGELOG.md"; then
+        exit 0
+    fi
+    
+    # Check if this looks like a significant change
+    if echo "$COMMIT_MSG" | grep -qE "^(feat|fix|add|remove|change|security):" ; then
+        echo ""
+        echo "🔔 REMINDER: Consider updating CHANGELOG.md for this change!"
+        echo "   Run: npm run changelog:add '$COMMIT_MSG' 'Detailed description'"
+        echo "   Or manually edit CHANGELOG.md"
+        echo ""
+        echo "   To skip this reminder, add 'skip-changelog' to your commit message"
+        echo ""
+        
+        # Check if user wants to skip
+        if echo "$COMMIT_MSG" | grep -q "skip-changelog"; then
+            exit 0
+        fi
+        
+        # Optional: Uncomment to make changelog updates mandatory
+        # echo "❌ CHANGELOG.md must be updated for significant changes!"
+        # echo "   Add your changes to CHANGELOG.md or add 'skip-changelog' to commit message"
+        # exit 1
+    fi
+fi
+
+exit 0

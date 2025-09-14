@@ -8,7 +8,18 @@ import { LockKeyhole, History, Columns2, Code, MonitorSmartphone, MoveUpRight, R
 import logoName from '@/assets/logo@4x.png'
 
 const DashboardPage = () => {
-  const { user, isLoaded, isSignedIn } = useUser();
+  // Always call hooks unconditionally
+  const clerkUser = useUser();
+  
+  // Check if Clerk is available
+  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+  const isClerkAvailable = publishableKey && publishableKey !== 'pk_test_your_publishable_key_here';
+  
+  // Use Clerk data only if available, otherwise provide defaults
+  const user = isClerkAvailable ? clerkUser.user : null;
+  const isLoaded = isClerkAvailable ? (clerkUser.isLoaded ?? true) : true;
+  const isSignedIn = isClerkAvailable ? (clerkUser.isSignedIn ?? false) : false;
+  
   const [activeTab, setActiveTab] = useState('chat');
   const [showPopup, setShowPopup] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -230,7 +241,7 @@ const DashboardPage = () => {
               </div>
               <div className="flex items-center justify-center space-x-2">
                 <span className="w-1.5 h-1.5 xl:w-2 xl:h-2 bg-gray-600 rounded-full"></span>
-                <span className="text-sm xl:text-base">Deploy when you're ready</span>
+                <span className="text-sm xl:text-base">Deploy when you&apos;re ready</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
                 <span className="w-1.5 h-1.5 xl:w-2 xl:h-2 bg-gray-600 rounded-full"></span>
@@ -278,7 +289,7 @@ const DashboardPage = () => {
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <span className="w-1.5 h-1.5 bg-gray-600 rounded-full"></span>
-                  <span className="text-sm">Deploy when you're ready</span>
+                  <span className="text-sm">Deploy when you&apos;re ready</span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <span className="w-1.5 h-1.5 bg-gray-600 rounded-full"></span>
@@ -377,7 +388,7 @@ const DashboardPage = () => {
                     <source src="/assets/cookingVideo.mp4" type="video/mp4" />
                   </video>
                   <div className="text-center mb-8 space-y-1.5">
-                    <h1 className="text-white text-3xl font-semibold mb-2">We're Cooking</h1>
+                    <h1 className="text-white text-3xl font-semibold mb-2">We&apos;re Cooking</h1>
                     <span className="text-gray-400 text-sm">Stay tuned and get ready for something delicious!</span>
                   </div>
                 </>

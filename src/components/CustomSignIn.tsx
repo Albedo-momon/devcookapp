@@ -22,8 +22,9 @@ export default function CustomSignIn() {
         redirectUrl: '/sso-callback',
         redirectUrlComplete: '/'
       });
-    } catch (err: any) {
-      setError(err.errors?.[0]?.message || 'GitHub sign-in failed');
+    } catch (err: unknown) {
+      const error = err as { errors?: { message: string }[] };
+      setError(error.errors?.[0]?.message || 'GitHub sign-in failed');
     }
   };
 
@@ -36,8 +37,9 @@ export default function CustomSignIn() {
         redirectUrl: '/sso-callback',
         redirectUrlComplete: '/'
       });
-    } catch (err: any) {
-      setError(err.errors?.[0]?.message || 'Google sign-in failed');
+    } catch (err: unknown) {
+      const error = err as { errors?: { message: string }[] };
+      setError(error.errors?.[0]?.message || 'Google sign-in failed');
     }
   };
 
